@@ -1,0 +1,75 @@
+using AutoMapper;
+using NetflixApiClone.Data;
+using NetflixApiClone.Helper;
+using NetflixApiClone.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("NetflixCloneDbConnection");
+var appSettingsToken = builder.Configuration.GetSection("AppSettings:Token").Value;
+var MyAllowSpecificOrigins = "_myAllowSpecifiOrigins";
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<NetflixApiContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, builder => { builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin(); });
+});
+
+IdentityBuilder identityBuilder = builder.Services.AddIdentityCore<User>(option => option.SignIn.RequireConfirmedEmail = true);
+identityBuilder = new IdentityBuilder(identityBuilder.UserType, typeof(Role), builder.Services);
+identityBuilder.AddEntityFrameworkStores<NetflixApiContext>();
+identityBuilder.AddRoleValidator<RoleValidator<Role>>();
+identityBuilder.AddRoleManager<RoleManager<Role>>();
+identityBuilder.AddSignInManager<SignInManager<User>>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => 
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettingsToken)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+builder.Services.AddMvc(options => 
+{
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
+
+app.UseAuthorization();
+app.UseAuthentication();
+
+app.MapControllers();
+
+app.Run();
