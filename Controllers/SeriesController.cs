@@ -85,7 +85,7 @@ namespace NetflixApiClone.Controllers
             _context.Series.Add(series);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSeries", new { id = series.Id }, series);
+            return CreatedAtAction(nameof(series), new { id = series.Id }, series);
         }
 
         // DELETE: api/Series/5

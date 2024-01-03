@@ -15,6 +15,7 @@ namespace NetflixApiClone.Data
         public DbSet<Series> Series { get; set; }
         public DbSet<Episode> Episodes { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<MyList> MyLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,5 +32,6 @@ namespace NetflixApiClone.Data
                 .HasForeignKey(u => u.UserId).IsRequired();
             });
         }
+        public DbSet<NetflixApiClone.Models.MyList> MyList { get; set; } = default!;
     }
 }
