@@ -9,6 +9,5 @@
         public string? ContentMovie { get; set; }
         public string? ThumbMovie { get; set; }
         public double Rating { get; set; }
-        public virtual Genre? Genre { get; set; }
     }
 }

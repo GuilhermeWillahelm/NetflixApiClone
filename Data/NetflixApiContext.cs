@@ -14,7 +14,6 @@ namespace NetflixApiClone.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Episode> Episodes { get; set; }
-        public DbSet<Genre> Genres { get; set; }
         public DbSet<MyList> MyLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

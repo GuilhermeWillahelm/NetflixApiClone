@@ -7,7 +7,6 @@
         public string? ThumbSeries { get; set; }
         public DateTime ReleaseDate { get; set; }
         public double Rating { get; set; }
-        public virtual Genre? Genre { get; set; }
         public virtual ICollection<Episode>? Episodes { get; set; }
         
     }

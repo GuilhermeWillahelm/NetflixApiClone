@@ -123,12 +123,7 @@ namespace NetflixApiClone.Controllers
                     Title = episode.Series.Title,
                     Rating = episode.Series.Rating,
                     ReleaseDate = episode.Series.ReleaseDate,
-                    ThumbSeries = episode.Series.ThumbSeries,
-                    GenreDto = new GenreDto 
-                    { 
-                        Id = episode.Series.Genre.Id,
-                        Name = episode.Series.Genre.Name
-                    }
+                    ThumbSeries = episode.Series.ThumbSeries
                 }
             };
     }

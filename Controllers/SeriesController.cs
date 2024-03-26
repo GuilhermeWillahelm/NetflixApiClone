@@ -117,11 +117,6 @@ namespace NetflixApiClone.Controllers
                 ThumbSeries = series.ThumbSeries,
                 ReleaseDate = series.ReleaseDate,
                 Rating = series.Rating,
-                GenreDto = new GenreDto
-                {
-                    Id = series.Genre.Id,
-                    Name = series.Genre.Name,
-                },
                 EpisodeDtos = (ICollection<EpisodeDto>)series.Episodes
                 
             };

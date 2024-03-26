@@ -117,12 +117,7 @@ namespace NetflixApiClone.Controllers
                 Description = movie.Description,
                 Director = movie.Director,
                 Rating = movie.Rating,
-                ContentMovie = movie.ContentMovie,
-                GenreDto = new GenreDto
-                {
-                    Id = movie.Genre.Id,
-                    Name = movie.Genre.Name,
-                }
+                ContentMovie = movie.ContentMovie
             }; 
     }
 }
