@@ -7,13 +7,11 @@ namespace NetflixApiClone.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public virtual User? User { get; set; }
-        public virtual ICollection<Movie>? Movies { get; set; }
-        public virtual ICollection<Series>? Series { get; set; }
+        public virtual ICollection<Video>? Movies { get; set; }
 
         public MyList() 
         {
-            Movies = new HashSet<Movie>();
-            Series = new HashSet<Series>();
+            Movies = new HashSet<Video>();
         }
 
     }

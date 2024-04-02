@@ -12,10 +12,7 @@ namespace NetflixApiClone.Helper
         {
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, LoginDto>().ReverseMap();
-            CreateMap<Movie, MovieDto>().ReverseMap();
-            CreateMap<Series, SeriesDto>().ReverseMap();
-            CreateMap<Episode, EpisodeDto>().ReverseMap();
-            CreateMap<Genre, GenreDto>().ReverseMap();
+            CreateMap<Video, VideoDto>().ReverseMap();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace NetflixApiClone.Controllers
 
         // GET: api/Users
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return Ok(new UserDto());
@@ -46,6 +47,7 @@ namespace NetflixApiClone.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -61,6 +63,7 @@ namespace NetflixApiClone.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> PutUser(int id, User user)
         {
             if (id != user.Id)

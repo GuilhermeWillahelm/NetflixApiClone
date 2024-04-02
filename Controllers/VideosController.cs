@@ -9,33 +9,36 @@ using NetflixApiClone.Data;
 using NetflixApiClone.Models;
 using NetflixApiClone.Dtos;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetflixApiClone.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MoviesController : ControllerBase
+    public class VideosController : ControllerBase
     {
         private readonly NetflixApiContext _context;
         private readonly IMapper _mapper;
 
-        public MoviesController(NetflixApiContext context)
+        public VideosController(NetflixApiContext context)
         {
             _context = context;
         }
 
         // GET: api/Movies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<VideoDto>>> GetMovies()
         {
-            return await _context.Movies.Select(m => ItemToDto(m)).ToListAsync();
+            return await _context.Videos.Select(m => ItemToDto(m)).ToListAsync();
         }
 
         // GET: api/Movies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MovieDto>> GetMovie(int id)
+        [AllowAnonymous]
+        public async Task<ActionResult<VideoDto>> GetMovie(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Videos.FindAsync(id);
 
             if (movie == null)
             {
@@ -48,7 +51,8 @@ namespace NetflixApiClone.Controllers
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(int id, MovieDto movieDto)
+        [AllowAnonymous]
+        public async Task<IActionResult> PutMovie(int id, VideoDto movieDto)
         {
             if (id != movieDto.Id)
             {
@@ -79,10 +83,11 @@ namespace NetflixApiClone.Controllers
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MovieDto>> PostMovie(MovieDto movieDto)
+        [AllowAnonymous]
+        public async Task<ActionResult<VideoDto>> PostMovie(VideoDto movieDto)
         {
-            var movie = _mapper.Map<Movie>(movieDto);
-            _context.Movies.Add(movie);
+            var movie = _mapper.Map<Video>(movieDto);
+            _context.Videos.Add(movie);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(movie), new { id = movie.Id }, movie);
@@ -90,15 +95,16 @@ namespace NetflixApiClone.Controllers
 
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteMovie(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Videos.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
             }
 
-            _context.Movies.Remove(movie);
+            _context.Videos.Remove(movie);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -106,18 +112,21 @@ namespace NetflixApiClone.Controllers
 
         private bool MovieExists(int id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            return _context.Videos.Any(e => e.Id == id);
         }
 
-        public static MovieDto ItemToDto(Movie movie) =>
-            new MovieDto 
+        public static Dtos.VideoDto ItemToDto(Video movie) =>
+            new Dtos.VideoDto 
             {
                 Id = movie.Id,
                 Title = movie.Title,
                 Description = movie.Description,
                 Director = movie.Director,
                 Rating = movie.Rating,
-                ContentMovie = movie.ContentMovie
+                ContentVideo = movie.ContentVideo,
+                ThumbVideo = movie.ThumbVideo,
+                Genre = movie.Genre,
+                TypeVideo = movie.TypeVideo,
             }; 
     }
 }

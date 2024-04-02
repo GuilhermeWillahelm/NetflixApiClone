@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace NetflixApiClone.Controllers
 
         // GET: api/MyLists
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<MyList>>> GetMyList()
         {
             return await _context.MyList.ToListAsync();
@@ -30,6 +32,7 @@ namespace NetflixApiClone.Controllers
 
         // GET: api/MyLists/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<MyList>> GetMyList(int id)
         {
             var myList = await _context.MyList.FindAsync(id);
@@ -45,6 +48,7 @@ namespace NetflixApiClone.Controllers
         // PUT: api/MyLists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> PutMyList(int id, MyList myList)
         {
             if (id != myList.Id)
@@ -76,6 +80,7 @@ namespace NetflixApiClone.Controllers
         // POST: api/MyLists
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<MyList>> PostMyList(MyList myList)
         {
             _context.MyList.Add(myList);
@@ -86,6 +91,7 @@ namespace NetflixApiClone.Controllers
 
         // DELETE: api/MyLists/5
         [HttpDelete("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> DeleteMyList(int id)
         {
             var myList = await _context.MyList.FindAsync(id);

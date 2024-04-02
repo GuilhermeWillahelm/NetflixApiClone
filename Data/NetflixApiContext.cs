@@ -11,9 +11,7 @@ namespace NetflixApiClone.Data
     {
         public NetflixApiContext(DbContextOptions<NetflixApiContext> options) : base(options) { }
 
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Series> Series { get; set; }
-        public DbSet<Episode> Episodes { get; set; }
+        public DbSet<Video> Videos{ get; set; }
         public DbSet<MyList> MyLists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
